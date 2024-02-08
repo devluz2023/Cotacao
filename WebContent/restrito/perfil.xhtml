@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="title">Meu Perfil</ui:define>
+
+
+    <ui:define name="conteudo-principal">
+
+
+
+        <fieldset>
+            <legend>Alteração de Senha</legend>
+
+            <h:form styleClass="form-horizontal">
+                <h:inputHidden value="#{usuarioController.usuario.id}"/>
+                <h:inputHidden value="#{usuarioController.usuario.status}"/>
+                <h:messages styleClass="alert alert-danger"/>
+
+                <div class="form-group">
+                    <h:outputLabel value="Nome:" for="nome" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-4">
+                        <h:inputText value="#{usuarioController.usuario.nome}" 
+                                     id="nome" required="true"
+                                     disabled="true"
+                                     requiredMessage="campo: nome obrigatório" 
+                                     validatorMessage="verificar campo nome" maxlength="80" onchange="this.value = this.value.toUpperCase();" styleClass="form-control">
+                            <f:validateLength minimum="10" maximum="80"/>
+                            <f:validateRegex pattern="[a-zA-Z ]*"/>
+                        </h:inputText>   
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Login:" for="login" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-2">
+                        <h:inputText value="#{usuarioController.usuario.login}"
+                                     disabled="true"
+                                     id="login" required="true" requiredMessage="campo: nome obrigatório" validatorMessage="verificar campo nome" maxlength="80" onchange="this.value = this.value.toUpperCase();" styleClass="form-control">
+                            <f:validateLength minimum="10" maximum="80"/>
+                        </h:inputText>   
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <h:outputLabel value="Matrícula:" for="matricula" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-2">
+                        <h:inputText value="#{usuarioController.usuario.matricula}" 
+                                     disabled="true"
+                                     id="matricula" required="true" requiredMessage="campo: matricula obrigatório" validatorMessage="verificar campo matricula" maxlength="9" onchange="this.value = this.value.toUpperCase();" styleClass="form-control">
+                            <f:validateLength minimum="9" maximum="9"/>
+                            <f:validateRegex pattern="[a-zA-Z0-9]*"/>
+                        </h:inputText>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Telefone:" for="telefone" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-2">
+                        <h:inputText value="#{usuarioController.usuario.telefone}" id="telefone" required="true" requiredMessage="campo telefone obrigatório" validatorMessage="verificar campo telefone" maxlength="8" styleClass="form-control">
+                            <f:validateLength minimum="8" maximum="8"/>
+                            <f:validateRegex pattern="[0-9]*"/>
+                        </h:inputText>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Senha:" for="senha" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-2">
+                        <h:inputSecret value="#{usuarioController.usuario.senha}" id="senha"
+                                       required="true" requiredMessage="campo senha obrigatório" 
+                                       validatorMessage="campo senha deve ter de 6 a 8 caracteres"
+                                       maxlength="8" styleClass="form-control">
+                            <f:validateLength minimum="6" maximum="8"/>
+                        </h:inputSecret>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Confirmar Senha:" for="c_senha" styleClass="col-sm-2 control-label"/>
+                    <div class="col-sm-2">
+                        <h:inputSecret value="#{usuarioController.usuario.c_senha}" id="c_senha"
+                                       required="true" 
+                                       requiredMessage="campo telefone obrigatório" 
+                                       validatorMessage="campo senha deve ter de 6 a 8 caracteres"
+                                       maxlength="8" styleClass="form-control">
+                            <f:validateLength minimum="6" maximum="8"/>
+                        </h:inputSecret>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <h:commandButton value="salvar" action="#{usuarioController.salvar}" 
+                                         styleClass="btn btn-primary"/>
+                    </div>
+                </div>
+
+            </h:form>
+
+
+        </fieldset>
+
+    </ui:define>
+
+</ui:composition>
+

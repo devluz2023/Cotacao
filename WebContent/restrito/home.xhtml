@@ -1,0 +1,212 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="title">Home</ui:define>
+
+
+	<ui:define name="conteudo-principal">
+
+
+		<h:form style="margin-top: 50px" id="form">
+
+			<h:messages styleClass="alert alert-danger" id="messages" />
+
+			<h:panelGrid columns="5">
+
+				<h:link value="Nova" outcome="solicitacao.xhtml"
+					title="Nova Solicitação" styleClass="btn btn-primary" />
+
+
+				<p:commandButton value="Cotação" ajax="false"
+					rendered="#{facesContext.externalContext.isUserInRole('COMPRADOR')}">
+					<f:setPropertyActionListener value="1"
+						target="#{materialController.relatorio}" />
+					<p:fileDownload value="#{materialController.arquivoRetorno}" />
+
+				</p:commandButton>
+
+				<p:commandButton value="Lista de Materiais" ajax="false"
+					rendered="#{facesContext.externalContext.isUserInRole('COMPRADOR')}">
+					<f:setPropertyActionListener value="2"
+						target="#{materialController.relatorio}" />
+					<p:fileDownload value="#{materialController.arquivoRetorno}" />
+				</p:commandButton>
+
+
+				<f:ajax listener="#{materialController.mudarStatus}" event="change"
+					execute="@form" render="@form">
+					<h:selectOneMenu id="status" value="#{materialController.status}"
+						styleClass="btn btn-default dropdown-toggle"
+						rendered="#{facesContext.externalContext.isUserInRole('COMPRADOR')}">
+						<f:selectItem itemLabel="Solicitada"
+							itemValue="Solicitada" />
+						<f:selectItem itemLabel="Material de Estoque"
+							itemValue="Material de Estoque" />
+						<f:selectItem itemLabel="Gerado SFF" itemValue="Gerado SFF" />
+						<f:selectItem itemLabel="Retirado AMX" itemValue="Retirado AMX" />
+						<f:selectItem itemLabel="Retirado AMX Lapa"
+							itemValue="Retirado AMX Lapa" />
+						<f:selectItem itemLabel="Retirado AMX Altino"
+							itemValue="Retirado AMX Altino" />
+						<f:selectItem itemLabel="Retirado AMX Principal"
+							itemValue="Retirado AMX Principal" />
+						<f:selectItem itemLabel="Material Descontinuado"
+							itemValue="Material Descontinuado" />
+						<f:selectItem itemLabel="Material Não Encontrado"
+							itemValue="Material Não Encontrado" />
+						<f:selectItem itemLabel="DFMA" itemValue="DFMA" />
+						<f:selectItem itemLabel="Concluído" itemValue="Concluído" />
+					</h:selectOneMenu>
+
+				</f:ajax>
+
+			</h:panelGrid>
+
+
+
+
+			<p:dataTable id="tbl" var="material"
+				value="#{materialController.materiais}"
+				filteredValue="#{materialController.materiaisFiltrados}"
+				style="margin-bottom:20px; 
+				font-family: Helvetica, Arial,sans-serif;
+				font-size: 13px;  color: #333"
+				selectionMode="multiple" editable="true"
+				selection="#{materialController.materiaisSelecionados}"
+				rowKey="#{material.id}" emptyMessage="" paginator="true" rows="20"
+				paginatorPosition="bottom"
+				rowStyleClass="#{material.status eq 'Concluído'  ? 'tabela' : null}"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink}
+                             {NextPageLink} {LastPageLink}">
+
+
+
+				<h:inputHidden value="#{material.id}" />
+
+				<p:ajax event="rowEdit" listener="#{materialController.editar}"
+					update=":form:tbl" />
+
+
+
+				<p:column headerText="SFF" filterBy="#{material.sff}"
+					filterMatchMode="contains">
+
+
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{material.sff}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{material.sff}" style="width:100%"
+								label="SFF" />
+						</f:facet>
+					</p:cellEditor>
+
+
+				</p:column>
+
+				<p:column headerText="Solicitante"
+					filterBy="#{material.usuario.nome}" filterMatchMode="contains">
+					<h:outputText value="#{material.usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="Data">
+					<h:outputText value="#{material.dataSolicitacao}">
+						<f:convertDateTime type="date" timeStyle="medium" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Descrição" filterBy="#{material.descricao}"
+					filterMatchMode="contains">
+					<h:outputText value="#{material.descricao}" />
+				</p:column>
+
+				<p:column headerText="Código CPTM" filterBy="#{material.codigoCPTM}"
+					filterMatchMode="contains">
+					<h:outputText value="#{material.codigoCPTM}" />
+				</p:column>
+
+				<p:column headerText="OSM" filterBy="#{material.osm}"
+					filterMatchMode="contains">
+					<h:outputText value="#{material.osm}" />
+				</p:column>
+
+				<p:column headerText="Qtd" style="width:55px">
+					<h:outputText value="#{material.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Un" style="width:55px">
+					<h:outputText value="#{material.unidade}" />
+				</p:column>
+
+				<p:column filterBy="#{material.tipo}" headerText="Tipo"
+					filterMatchMode="contains">
+					<h:outputText value="#{material.tipo}" />
+				</p:column>
+
+
+				<p:column headerText="Status" filterBy="#{material.status}"
+					filterMatchMode="contains">
+					<h:outputText value="#{material.status}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center"
+					rendered="#{facesContext.externalContext.isUserInRole('COMPRADOR')}">
+					<p:commandButton update=":form:MaterialDe"
+						actionListener="#{materialController.buscar(material.id)}"
+						oncomplete="PF('MaterialDialog').show()" icon="ui-icon-search"
+						title="Visualiar">
+					</p:commandButton>
+				</p:column>
+
+				<p:column
+					rendered="#{facesContext.externalContext.isUserInRole('COMPRADOR')}">
+					<p:rowEditor />
+				</p:column>
+
+			</p:dataTable>
+
+
+			<p:dialog header="Andamentos" widgetVar="MaterialDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false"
+				id="materialDetalhe">
+
+				<p:outputPanel id="MaterialDe" style="text-align:center;">
+
+
+					<h:dataTable var="andamento"
+						value="#{materialController.material.listaAndamento}"
+						styleClass="table table-bordered" rowClasses="warning, danger"
+						rendered="#{!empty materialController.material.listaAndamento}">
+
+
+						<h:column>
+							<f:facet name="header">Data</f:facet>
+							<h:inputHidden value="#{andamento.id}" />
+							<h:outputText value="#{andamento.dataDoAndamento}">
+								<f:convertDateTime dateStyle="full" type="date" />
+							</h:outputText>
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Status</f:facet>
+							<h:outputText value="#{andamento.status}" />
+						</h:column>
+
+					</h:dataTable>
+
+				</p:outputPanel>
+			</p:dialog>
+
+		</h:form>
+
+
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title><ui:insert name="title">Solicitação de Material e Serviço</ui:insert></title>
+
+        <link rel="shortcut icon" href="#{resource['imagens/favicon.ico']}" 
+              type="image/x-icon" />
+        
+        
+        <h:outputStylesheet library="css" name="reset.css"/>
+         <h:outputStylesheet library="css" name="table.css"/>
+        
+        
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+              crossorigin="anonymous"></link>
+
+
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+            crossorigin="anonymous"></script>
+        </f:facet>
+
+
+
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+
+
+
+
+        <style>
+
+            body { 
+                padding-top: 100px;
+            }
+
+            .container{
+                min-width: 600px;
+            }
+
+            .hide{
+                visibility: hidden;
+            }
+            .show-form{
+                display: inline-block;
+            }
+            .sistema{
+                color:  #000000 !important;
+                font-weight: bold;
+            }
+
+            .subsistema{
+                color: #c9302c !important;
+                font-weight: bold;
+            }
+
+        </style>
+
+
+    </h:head>
+
+
+    <h:body>
+
+        <ui:include src="menu.xhtml"/>
+
+        <div class="container">
+
+            <ui:insert name="conteudo-principal"/>
+
+        </div>
+
+
+
+    </h:body>
+</html>

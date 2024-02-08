@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="title">Técnicos Laboratório</ui:define>
+
+
+    <ui:define name="conteudo-principal">
+
+
+
+        <fieldset>
+            <legend>Técnicos Laboratório</legend>
+
+            <h:form>
+                <p:dataTable value="#{usuarioController.usuarios}" var="usuario">
+                    #{usuario.id}
+                    <p:column headerText="Nome:" style="width:200px">
+                        #{usuario.nome}
+                    </p:column>
+                    <p:column headerText="Login:" style="width:100px">
+                        #{usuario.login}
+                    </p:column>
+                    <p:column headerText="Matricula:" style="width:100px">
+                        #{usuario.matricula}
+                    </p:column>
+                    <p:column headerText="Telefone:" style="width:100px">
+                        #{usuario.telefone}
+                    </p:column>
+                    <p:column headerText="ativo" style="width:75px">
+                      
+                        <h:graphicImage library="imagens"
+                                        name="usuario_ativo_#{usuario.status}.png"/>
+                    </p:column>
+
+
+                </p:dataTable>
+            </h:form>
+
+
+        </fieldset>
+
+    </ui:define>
+
+</ui:composition>
+
